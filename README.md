@@ -1,1 +1,1 @@
-# Hoshi
+# TOI-zero-python
