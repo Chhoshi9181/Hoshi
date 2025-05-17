@@ -1,46 +1,43 @@
-//Author : PasitHexaHydride
-#include <bits/stdc++.h>
-using namespace std;
+# For 100 points, run with C++. You can find the code by clicking the link in README.md
 
-int main(){ios::sync_with_stdio(false);cin.tie(nullptr);
-    int n; 
-    cin >> n;
-    map<long long, pair<int, int>> m1; 
-    map<long long, pair<int, int>> m2; 
-    for (int i = 0; i < n; i++){
-        int x, y; 
-        cin >> x >> y;
-        long long d1 = (long long)y - x;
-        long long d2 = (long long)y + x;
-        auto it1 = m1.find(d1); 
-        if(it1 == m1.end()){
-            m1.emplace(d1, make_pair(x, x)); 
-        }else{
-            it1->second.first = min(it1->second.first, x); 
-            it1->second.second = max(it1->second.second, x); 
-        }
-        auto it2 = m2.find(d2); 
-        if(it2 == m2.end()){
-            m2.emplace(d2, make_pair(x, x)); 
-        }else{
-            it2->second.first = min(it2->second.first, x); 
-            it2->second.second = max(it2->second.second, x); 
-        }
-    }
-    long long ms = 0; 
-    for (const auto& p : m1){
-        int mn = p.second.first;  
-        int mx = p.second.second; 
-        if(mx > mn){
-            ms = max(ms, (long long)(mx - mn)); 
-        }
-    }
-    for (const auto& p : m2){
-        int mn = p.second.first;  
-        int mx = p.second.second; 
-         if(mx > mn){
-            ms = max(ms, (long long)(mx - mn)); 
-        }
-    }
-    cout << ms;
-}
+def largest_tent_size(holes):
+    n = len(holes)
+
+    if n <= 1:
+        return 0
+
+    diagonals = {}
+
+    for i in range(n):
+        x1, y1 = holes[i]
+        for j in range(i+1, n):
+            x2, y2 = holes[j]
+
+            center_x = (x1 + x2) / 2
+            center_y = (y1 + y2) / 2
+            dx = abs(x1 - x2) / 2
+            dy = abs(y1 - y2) / 2
+
+            if dx == dy and ((x1 != x2) and (y1 != y2)):
+                diagonal_length = dx * 2
+
+                diagonals[(center_x, center_y, diagonal_length)] = diagonal_length
+
+    if diagonals:
+        return max(diagonals.values())
+    else:
+        return 0
+
+def main():
+    n = int(input())
+
+    holes = []
+    for _ in range(n):
+        x, y = map(int, input().split())
+        holes.append((x, y))
+
+    result = largest_tent_size(holes)
+    print(int(result))
+
+if __name__ == "__main__":
+    main()
