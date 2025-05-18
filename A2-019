@@ -1,61 +1,43 @@
-//Author : PasitHexaHydride
-#include <bits/stdc++.h>
-using namespace std;
+def solve_rabbit_buu(text):
+  text_lower = text.lower()
 
-char tolow(char c){
-    return tolower(static_cast<unsigned char>(c));
-}
+  if "buu" in text_lower:
+      max_u_count = 0
 
-int main(){ios::sync_with_stdio(false);cin.tie(nullptr);
-    string s;
-    cin >> s;
-    int n = s.length();
-    int mx = 0;
-    bool found = false;
-    if(n >= 3){
-        for (int i = 0; i <= n - 3; i++){
-            if(tolow(s[i]) == 'b' && tolow(s[i+1]) == 'u' && tolow(s[i+2]) == 'u'){
-                found = true;
-                int curr = 0;
-                for (int j = i + 1; j < n; j++){
-                    if(tolow(s[j]) == 'u'){
-                        curr++;
-                    }else{
-                        break;
-                    }
-                }
-                if(curr > mx){
-                    mx = curr;
-                }
-            }
-        }
-    }
-    if(found){
-        cout << "Yes " << mx;
-    }else{
-        int idx = -1;
-        for (int i = 0; i < n; i++){
-            if(tolow(s[i]) == 'b'){
-                idx = i;
-                break;
-            }
-        }
-        if(idx != -1){
-            string ans = "";
-            for (int i = 0; i <= idx; i++){
-                ans += s[i];
-            }
-            for (int i = idx + 1; i < n; i++){
-                ans += 'U';
-            }
-            cout << ans;
-        }else{
-            string ans = "";
-            string pp = "BUU";
-            for (int i = 0; i < n; i++){
-                ans += pp[i % 3];
-            }
-            cout << ans;
-        }
-    }
-}
+      for i in range(len(text_lower)):
+          if text_lower[i] == 'b':
+              u_count = 0
+              j = i + 1
+              while j < len(text_lower) and text_lower[j] == 'u':
+                  u_count += 1
+                  j += 1
+
+              max_u_count = max(max_u_count, u_count)
+
+      return f"Yes {max_u_count}"
+
+  elif 'b' in text_lower:
+      result = ""
+      found_b = False
+
+      for char in text:
+          if not found_b and char.lower() == 'b':
+              result += char
+              found_b = True
+          elif found_b:
+              result += 'U'
+          else:
+              result += char
+
+      return result
+
+  else:
+
+      pattern = "BUU"
+      repetitions = len(text) // len(pattern)
+      remainder = len(text) % len(pattern)
+
+      return pattern * repetitions + pattern[:remainder]
+
+user_input = input().strip()
+print(solve_rabbit_buu(user_input))
