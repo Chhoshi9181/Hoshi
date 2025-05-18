@@ -1,9 +1,5 @@
-//Author : PasitHexaHydride
-#include <bits/stdc++.h>
-using namespace std; 
+width,long,high = map(int,input().split())
+price = int(input())
 
-int main(){ios::sync_with_stdio(false);cin.tie(nullptr);
-    int w, l, n, p;
-    cin >> w >> l >> n >> p;
-    cout << 2LL * (w + l) * n << "\n" << 2LL * (w + l) * n * p;
-}
+print(2*(width+long)*high)
+print((2*(width+long)*high)*price)
