@@ -1,25 +1,28 @@
 import sys
+from collections import defaultdict
 
 input = sys.stdin.readline
+
 n = int(input())
 
-points = []
-s = set()
+d1 = defaultdict(list)
+d2 = defaultdict(list)
 
 for _ in range(n):
     x, y = map(int, input().split())
-    points.append((x, y))
-    s.add((x, y))
+    d1[x - y].append(x)
+    d2[x + y].append(x)
 
 ans = 0
 
-for i in range(n):
-    x1, y1 = points[i]
-    for j in range(i+1, n):
-        x2, y2 = points[j]
+for g in d1.values():
+    g.sort()
+    if len(g) > 1:
+        ans = max(ans, g[-1] - g[0])
 
-        if abs(x1-x2) == abs(y1-y2):
-            if (x1, y2) in s and (x2, y1) in s:
-                ans = max(ans, abs(x1-x2))
+for g in d2.values():
+    g.sort()
+    if len(g) > 1:
+        ans = max(ans, g[-1] - g[0])
 
 print(ans)
