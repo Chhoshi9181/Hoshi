@@ -6,28 +6,22 @@ n, m = map(int, input().split())
 red = list(map(int, input().split()))
 blue = list(map(int, input().split()))
 
-i = j = 0
-dir_r = 1
-dir_b = 1
+events = []
+
+for x in red:
+    events.append((x, 'R'))
+
+for x in blue:
+    events.append((x, 'B'))
+
+events.sort()
+
 ans = 1
+last = events[0][1]
 
-while i < n or j < m:
-
-    if j == m or (i < n and red[i] < blue[j]):
-        dir_r *= -1
-        i += 1
-
-    elif i == n or (j < m and blue[j] < red[i]):
-        dir_b *= -1
-        j += 1
-
-    else:
-        dir_r *= -1
-        dir_b *= -1
-        i += 1
-        j += 1
-
-    if dir_r != dir_b:
+for i in range(1, len(events)):
+    if events[i][1] != last:
         ans += 1
+    last = events[i][1]
 
 print(ans)
