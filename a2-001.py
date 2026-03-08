@@ -2,12 +2,12 @@ import sys
 input = sys.stdin.readline
 
 n, m = map(int, input().split())
+red = list(map(int, input().split()))
+blue = list(map(int, input().split()))
 
-red = [int(input()) for _ in range(n)]
-blue = [int(input()) for _ in range(m)]
-
-i = j = 0
-count = 0
+i = 0
+j = 0
+ans = 1
 last = None
 
 while i < n or j < m:
@@ -20,8 +20,8 @@ while i < n or j < m:
         j += 1
 
     if last is not None and cur != last:
-        count += 1
+        ans += 1
 
     last = cur
 
-print(count + 1)
+print(ans)
