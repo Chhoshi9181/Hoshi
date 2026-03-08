@@ -2,26 +2,32 @@ import sys
 input = sys.stdin.readline
 
 n, m = map(int, input().split())
+
 red = list(map(int, input().split()))
 blue = list(map(int, input().split()))
 
-i = 0
-j = 0
+i = j = 0
+dir_r = 1
+dir_b = 1
 ans = 1
-last = None
 
 while i < n or j < m:
 
     if j == m or (i < n and red[i] < blue[j]):
-        cur = 'R'
+        dir_r *= -1
         i += 1
-    else:
-        cur = 'B'
+
+    elif i == n or (j < m and blue[j] < red[i]):
+        dir_b *= -1
         j += 1
 
-    if last is not None and cur != last:
-        ans += 1
+    else:
+        dir_r *= -1
+        dir_b *= -1
+        i += 1
+        j += 1
 
-    last = cur
+    if dir_r != dir_b:
+        ans += 1
 
 print(ans)
