@@ -3,25 +3,25 @@ input = sys.stdin.readline
 
 n, m = map(int, input().split())
 
-red = list(map(int, input().split()))
-blue = list(map(int, input().split()))
+red = [int(input()) for _ in range(n)]
+blue = [int(input()) for _ in range(m)]
 
-events = []
+i = j = 0
+count = 0
+last = None
 
-for x in red:
-    events.append((x, 'R'))
+while i < n or j < m:
 
-for x in blue:
-    events.append((x, 'B'))
+    if j == m or (i < n and red[i] < blue[j]):
+        cur = 'R'
+        i += 1
+    else:
+        cur = 'B'
+        j += 1
 
-events.sort()
+    if last is not None and cur != last:
+        count += 1
 
-ans = 1
-last = events[0][1]
+    last = cur
 
-for i in range(1, len(events)):
-    if events[i][1] != last:
-        ans += 1
-    last = events[i][1]
-
-print(ans)
+print(count + 1)
