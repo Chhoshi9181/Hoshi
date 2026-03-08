@@ -4,36 +4,45 @@ A = [0]*(N+1)
 B = [0]*(N+1)
 
 for i in range(1, N+1):
-    a, b = map(int, input().split())
-    A[i] = a
-    B[i] = b
+    A[i], B[i] = map(int, input().split())
 
 targets = list(map(int, input().split()))
 
-ans = []
-i = 0
+cover = [[] for _ in range(N+1)]
 
-while i < M:
-    t = targets[i]
+for i in range(1, N+1):
+    for j in range(M):
+        t = targets[j]
+        if A[i] <= A[t] and B[i] >= B[t]:
+            cover[i].append(j)
 
-    best = -1
-    best_cover = -1
+best_ans = None
+best_extra = 10**9
 
-    for j in range(1, N+1):
-        if A[j] <= A[t] and B[j] >= B[t]:
-            cover = 0
-            k = i
-            while k < M and A[j] <= A[targets[k]] and B[j] >= B[targets[k]]:
-                cover += 1
-                k += 1
+from itertools import combinations
 
-            if cover > best_cover:
-                best_cover = cover
-                best = j
+for r in range(1, M+1):
+    for comb in combinations(range(1, N+1), r):
 
-    ans.append(best)
+        covered = set()
+        extra = 0
 
-    i += best_cover
+        for c in comb:
+            for j in range(N):
+                if A[c] <= A[j+1] and B[c] >= B[j+1]:
+                    if j+1 not in targets:
+                        extra += 1
 
-print(len(ans))
-print(*sorted(ans))
+            for j in cover[c]:
+                covered.add(j)
+
+        if len(covered) == M:
+            if best_ans is None or r < len(best_ans) or (r == len(best_ans) and extra < best_extra):
+                best_ans = comb
+                best_extra = extra
+
+if best_ans is None:
+    best_ans = []
+
+print(len(best_ans))
+print(*sorted(best_ans))
